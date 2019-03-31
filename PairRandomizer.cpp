@@ -4,45 +4,53 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <pair>
+#include <utility>  
+#include <vector> 
+#include <unordered_set>
 
-std::vector<std::pair<std::string,std::string>> TeamBuilder(vector<std::string> names){
+std::vector<std::pair<std::string,std::string>> TeamBuilder(std::vector<std::string> names){
 	//So we need to randomize each name in the name vector, take it out, and then reroll f
 	std::string nameA;
 	std::string nameB;
 	std::vector<std::pair<std::string,std::string>> teams;
 	std::unordered_multiset<std::string> NameSet;
-	std::vector<std::string> RandomOrder;
-	for(std::string name:names){
+	std::vector<std::string> RandomOrder;  //End variable init 
+	int Namepoint = 0;
+	for(std::string name:names){ //Creates multiset 
 		NameSet.insert(name);
 	}
-	for(int i =0; i<names.size();i++){
+	for(unsigned int i =0; i<names.size();i++){ //randomizes names 
 		srand(time(NULL));
 		Namepoint = rand()% names.size();
-		NamesRemoved = NameSet.remove(names[Namepoint]);
-		if(NamesRemoved > 1){
+		int NamesRemoved = NameSet.erase(names[Namepoint]); 
+		if(NamesRemoved > 1){  //If duplicate names are present, readd remaining to multiset 
 			for(int k =0; k < NamesRemoved; k++){
-				NameSet.insert(names[Namepoint])
+				NameSet.insert(names[Namepoint]);
 			}
 		}
-		else if (NamesRemoved == 0){
-			while( NamesRemoved != 1 ){
+		else if (NamesRemoved == 0){ //If name is not in multiset, reroll until a valid name is drawn
+			while( NamesRemoved != 1 ){ //Run until only one name is drawn from Multiset 
 				srand(time(NULL));
 				Namepoint = rand()% names.size();
-				NamesRemoved = NameSet.remove(names[Namepoint]);
-				if(NamesRemoved > 1){
+				NamesRemoved = NameSet.erase(names[Namepoint]);
+				if(NamesRemoved > 1){  //If duplicates exist, readd them and repeat
 					for(int k =0; k < NamesRemoved; k++){
-						NameSet.insert(names[Namepoint])
+						NameSet.insert(names[Namepoint]);
 					}
 				} 
 			}
 		}
-		RandomOrder.push_back(names[Namepoint])
+		RandomOrder.push_back(names[Namepoint]); //Push names into random order
 	}
-	for(std::string RandName:RandomOrder){
-		//Make pairs
+	for(unsigned int j=0;j<RandomOrder.size();j++){ //Creates pairs 
+		//Make pairs. Need to take 2 things in a vector and combine them
+		nameA = RandomOrder[j];
+		j++;  //Counts 2 at a time 
+		nameB = RandomOrder[j];
+		teams.push_back(std::make_pair(nameA,nameB)); 
+		//Need to add odd number check 
 	}
-	
+	return teams;
 }
 
 int main(){
@@ -59,14 +67,10 @@ int main(){
 	
 	//Choose list or team 
 	
-	std::vector<std::pair<std::string;std::string>> NamePairs;  //Team group builder
-	for(int i; i<names.size()/2;i++){
-		/*srand(tize();
-		nameB = names[Namepoint];ime(NULL));
-		Namepoint = rand() % names.size();
-		nameA = names[Namepoint];
-		srand(time(NULL));
-		Namepoint = rand() % names.s*/
+	std::vector<std::pair<std::string,std::string>> NamePairs = TeamBuilder(names);  //Team group builder
+	for(std::pair<std::string,std::string> pair : NamePairs){
+		std::cout << pair.first << " is partners with " << pair.second << std::endl;
 	}
+
 	
 }
