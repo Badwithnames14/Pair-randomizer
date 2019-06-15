@@ -7,40 +7,32 @@
 #include <utility>  
 #include <vector> 
 #include <unordered_set>
+#include <set>
 
 std::vector<std::pair<std::string,std::string>> TeamBuilder(std::vector<std::string> names){
 	//So we need to randomize each name in the name vector, take it out, and then reroll f
 	std::string nameA;
 	std::string nameB;
 	std::vector<std::pair<std::string,std::string>> teams;
-	std::unordered_multiset<std::string> NameSet;
+	//std::unordered_multiset<std::string> NameSet;
+	std::multiset<std::string> NameSet;
 	std::vector<std::string> RandomOrder;  //End variable init 
 	int Namepoint = 0;
 	for(std::string name:names){ //Creates multiset 
 		NameSet.insert(name);
 	}
-	for(unsigned int i =0; i<names.size();i++){ //randomizes names 
-		srand(time(NULL));
-		Namepoint = rand()% names.size();
-		int NamesRemoved = NameSet.erase(names[Namepoint]); 
-		if(NamesRemoved > 1){  //If duplicate names are present, readd remaining to multiset 
-			for(int k =0; k < NamesRemoved; k++){
-				NameSet.insert(names[Namepoint]);
-			}
+	
+	while(NameSet.size() != 0){//Add srand somewhere
+		//Move iterator by a random value dependant on the size of the multiset 
+		//Remove element at that point and insert it into the random order vector 
+		Namepoint = rand()% NameSet.size(); //Picks point for name
+		auto iter = NameSet.begin(); //Creates iterator 
+		for(int k = 0; k<Namepoint; k++){ //Moves to element
+			iter++; 
 		}
-		else if (NamesRemoved == 0){ //If name is not in multiset, reroll until a valid name is drawn
-			while( NamesRemoved != 1 ){ //Run until only one name is drawn from Multiset 
-				srand(time(NULL));
-				Namepoint = rand()% names.size();
-				NamesRemoved = NameSet.erase(names[Namepoint]);
-				if(NamesRemoved > 1){  //If duplicates exist, readd them and repeat
-					for(int k =0; k < NamesRemoved; k++){
-						NameSet.insert(names[Namepoint]);
-					}
-				} 
-			}
-		}
-		RandomOrder.push_back(names[Namepoint]); //Push names into random order
+		std::string thing = *iter; //Retrives value from iterator 
+		RandomOrder.push_back(thing); //Adds to array
+		NameSet.erase(iter); //Destorys 
 	}
 	for(unsigned int j=0;j<RandomOrder.size();j++){ //Creates pairs 
 		//Make pairs. Need to take 2 things in a vector and combine them
