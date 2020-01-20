@@ -20,26 +20,39 @@ std::vector<std::pair<std::string,std::string>> TeamBuilder(std::vector<std::str
 	int Namepoint = 0;
 	for(std::string name:names){ //Creates multiset 
 		NameSet.insert(name);
+		std::cout<<"added "<<name<<std::endl;
 	}
 	
 	while(NameSet.size() != 0){//Add srand somewhere
+		std::cout << "in while loop" << std::endl;
 		//Move iterator by a random value dependant on the size of the multiset 
 		//Remove element at that point and insert it into the random order vector 
 		Namepoint = rand()% NameSet.size(); //Picks point for name
+		std::cout << "Created Namepoint" << std::endl;
 		auto iter = NameSet.begin(); //Creates iterator 
+		std::cout << "created iter" << std::endl;
 		for(int k = 0; k<Namepoint; k++){ //Moves to element
 			iter++; 
 		}
 		std::string thing = *iter; //Retrives value from iterator 
+		std::cout << "thing is "<< thing << std::endl;
 		RandomOrder.push_back(thing); //Adds to array
+		std::cout << "added " << thing << " to randomOrder" << std::endl; 
 		NameSet.erase(iter); //Destorys 
 	}
+	std::cout << "randomOrder size = " << RandomOrder.size() << std::endl;
 	for(unsigned int j=0;j<RandomOrder.size();j++){ //Creates pairs 
 		//Make pairs. Need to take 2 things in a vector and combine them
 		nameA = RandomOrder[j];
+		std::cout << "nameA = " << nameA << std::endl;
 		j++;  //Counts 2 at a time 
-		nameB = RandomOrder[j];
-		teams.push_back(std::make_pair(nameA,nameB)); 
+		if(j <= RandomOrder.size() ){
+			nameB = RandomOrder[j];
+			std::cout << "nameB = " << nameB << std::endl; 
+			teams.push_back(std::make_pair(nameA,nameB)); 
+		}else{
+			nameB = "";
+		}
 		//Need to add odd number check 
 	}
 	return teams;
