@@ -64,18 +64,32 @@ int main(){
 	while(std::cin >> string1){  //User inputs names
 		names.push_back(string1);
 	}
-	
+	std::cin.clear();
 	std::cout<<"names for pair randomizing:" << std::endl; //Shows user input 
 	for(std::string h: names){
 		std::cout << h << std::endl;
 	}
 	
-	//Choose list or team 
-	
-	std::vector<std::pair<std::string,std::string>> NamePairs = TeamBuilder(names);  //Team group builder
-	for(std::pair<std::string,std::string> pair : NamePairs){
-		std::cout << pair.first << " is partners with " << pair.second << std::endl;
+	std::string programMode;
+	std::cout << "Please enter \"Team\" or \"List\" to choose team randomization or group list" << std::endl;	//Choose list or team 
+	std::cin >> programMode;
+	for (char &letter:programMode){ //Negates capitalization
+		letter = toupper(letter);
 	}
+	
+	if(programMode == "TEAM"){
+		std::vector<std::pair<std::string,std::string>> NamePairs = TeamBuilder(names);  //Team group builder
+		for(std::pair<std::string,std::string> pair : NamePairs){
+			std::cout << pair.first << " is partners with " << pair.second << std::endl;
+		}
+	}
+	else if(programMode == "LIST"){
+		std::cout << "List mode has yet to be developed, sorry the inconvience" << std::endl;
+	}
+	else{
+		std::cout << "Invalid input, please restart and try again" << std::endl;
+	}
+	
 
 	
 }
