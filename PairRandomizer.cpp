@@ -1,4 +1,8 @@
 //A program that creates pairs from a list of names. 2 modes are included, teams for exclusive pairs, and list for non-exclusive pairings (eg secret santa, order of succession, etc)
+//To do: 
+//Finish list implimentation
+//Add variable team sizes
+//Rewrite to take advantage of classes
 //Cord Corcese - March 2019
 
 #include <iostream>
@@ -20,35 +24,26 @@ std::vector<std::pair<std::string,std::string>> TeamBuilder(std::vector<std::str
 	int Namepoint = 0;
 	for(std::string name:names){ //Creates multiset 
 		NameSet.insert(name);
-		std::cout<<"added "<<name<<std::endl;
 	}
 	
 	while(NameSet.size() != 0){//Add srand somewhere
-		std::cout << "in while loop" << std::endl;
 		//Move iterator by a random value dependant on the size of the multiset 
 		//Remove element at that point and insert it into the random order vector 
 		Namepoint = rand()% NameSet.size(); //Picks point for name
-		std::cout << "Created Namepoint" << std::endl;
 		auto iter = NameSet.begin(); //Creates iterator 
-		std::cout << "created iter" << std::endl;
 		for(int k = 0; k<Namepoint; k++){ //Moves to element
 			iter++; 
 		}
 		std::string thing = *iter; //Retrives value from iterator 
-		std::cout << "thing is "<< thing << std::endl;
 		RandomOrder.push_back(thing); //Adds to array
-		std::cout << "added " << thing << " to randomOrder" << std::endl; 
 		NameSet.erase(iter); //Destorys 
 	}
-	std::cout << "randomOrder size = " << RandomOrder.size() << std::endl;
 	for(unsigned int j=0;j<RandomOrder.size();j++){ //Creates pairs 
 		//Make pairs. Need to take 2 things in a vector and combine them
 		nameA = RandomOrder[j];
-		std::cout << "nameA = " << nameA << std::endl;
 		j++;  //Counts 2 at a time 
 		if(j <= RandomOrder.size() ){
 			nameB = RandomOrder[j];
-			std::cout << "nameB = " << nameB << std::endl; 
 			teams.push_back(std::make_pair(nameA,nameB)); 
 		}else{
 			nameB = "";
@@ -56,6 +51,29 @@ std::vector<std::pair<std::string,std::string>> TeamBuilder(std::vector<std::str
 		//Need to add odd number check 
 	}
 	return teams;
+}
+
+std::vector<std::pair<std::string,std::string>> Listbuilder(std::vector<std::string> names){ //Creates secret santa style sorting
+	//To do
+	std::vector<std::string> getters = names; //copy vector to hold potential gift recivers
+	std::vector<std::pair<std::string,std::string>> matches; //Maybe switch to using a list?
+	for(std::string giver: names){
+		int namepos = rand()%getters.size();
+		matches.push_back(make_pair(giver,getters.at(namepos)));
+		//getters.erase(namepos);
+		//Randomly take name from getters and pair it with giver
+		//Remove name pulled from getters
+		//matches.append();
+	}
+	//std::cout << "GIVER" << "buys for" << "GETTER" //Add variables This goes in main or as a class function once implemented
+	//Return as a pair with the santa matched with the giftee
+	
+	//Need to ensure all names are matched
+	//Copy inital name list, one will be giver list, one will be getter list
+	//Take a givers, randomly match with getter, remove both from each list
+	//Then print out secret santa matches
+	//Add way to anonomize it later? 
+	return matches;
 }
 
 int main(){
