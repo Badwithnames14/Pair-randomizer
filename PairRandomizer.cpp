@@ -60,6 +60,9 @@ std::vector<std::pair<std::string,std::string>> Listbuilder(std::vector<std::str
 		getters.push_back(name);
 	}//copy vector to hold potential gift recivers
 	std::vector<std::pair<std::string,std::string>> matches; //Maybe switch to using a list?
+	for(std::string name: getters){
+		std::cout << "getters: " << name << std::endl; 
+	}
 	
 	for(std::string giver: names){
 		int namepos = rand()%getters.size();
@@ -109,7 +112,6 @@ int main(){
 	}
 	else if(programMode == "LIST"){
 		std::cout << "List mode has yet to be developed, sorry the inconvience" << std::endl;
-		std::vector<std::pair<std::string,std::string>> Namelisting = Listbuilder(names);
 		Listbuilder(names);
 	}
 	else{
