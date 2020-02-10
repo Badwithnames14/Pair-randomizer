@@ -55,19 +55,25 @@ std::vector<std::pair<std::string,std::string>> TeamBuilder(std::vector<std::str
 
 std::vector<std::pair<std::string,std::string>> Listbuilder(std::vector<std::string> names){ //Creates secret santa style sorting
 	//To do
-	std::vector<std::string> getters = names; //copy vector to hold potential gift recivers
+	std::vector<std::string> getters;
+	for(std::string name : names){
+		getters.push_back(name);
+	}//copy vector to hold potential gift recivers
 	std::vector<std::pair<std::string,std::string>> matches; //Maybe switch to using a list?
+	
 	for(std::string giver: names){
 		int namepos = rand()%getters.size();
 		matches.push_back(make_pair(giver,getters.at(namepos)));
-		//getters.erase(namepos);
+		getters.erase(getters.begin() + namepos);
 		//Randomly take name from getters and pair it with giver
 		//Remove name pulled from getters
 		//matches.append();
 	}
 	//std::cout << "GIVER" << "buys for" << "GETTER" //Add variables This goes in main or as a class function once implemented
 	//Return as a pair with the santa matched with the giftee
-	
+	for(std::pair pairing: matches){
+		std::cout << pairing.first << " buys for " << pairing.second << std::endl;
+	}
 	//Need to ensure all names are matched
 	//Copy inital name list, one will be giver list, one will be getter list
 	//Take a givers, randomly match with getter, remove both from each list
@@ -103,6 +109,8 @@ int main(){
 	}
 	else if(programMode == "LIST"){
 		std::cout << "List mode has yet to be developed, sorry the inconvience" << std::endl;
+		std::vector<std::pair<std::string,std::string>> Namelisting = Listbuilder(names);
+		Listbuilder(names);
 	}
 	else{
 		std::cout << "Invalid input, please restart and try again" << std::endl;
